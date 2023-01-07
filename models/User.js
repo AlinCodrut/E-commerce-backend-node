@@ -2,7 +2,6 @@ const mongoose = require("mongoose")
 const validator = require("validator") // asta e un pachet pe care sa-l folisim ca sa putem valida adresa de email sau alte lucruri ce ne trebuie fara sa mai tot scriem regEX si altele
 const bcrypt = require("bcryptjs") // Pachet pentru hasihin parola
 
-
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -28,7 +27,19 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ["admin", "user"],
     default: "user"
-  }
+  },
+  verificationToken: {
+    type: String
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  verified: {
+    type: Date
+  },
+  passwordToken: { type: String },
+  passwordTokenExpirationDate: { type: Date }
 })
 
 UserSchema.pre("save", async function () {
